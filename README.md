@@ -4,9 +4,9 @@ Stepmom is an Alexa skill that will attempt to create a full set of features del
 
 Some examples:
 
-*"Stepmom please remind me to get groceries tomorrow."*
+*Stepmom please remind me to get groceries tomorrow.*
 
-**"Fine, if you are going to get so drunk that you forget every simple thing, then I guess I'll have to remind you."**
+**Fine, if you are going to get so drunk that you forget every simple thing, then I guess I'll have to remind you.**
 
 *Stepmom please tell me what movies are playing tonight.*
 
