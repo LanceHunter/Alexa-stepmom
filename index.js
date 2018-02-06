@@ -3,33 +3,6 @@
 // Starting up the Alexa SDK.
 const Alexa = require('alexa-sdk');
 
-// An array of strings for pointed greetings.
-const greetings = [
-  `Oh, you again.`,
-  `This had better be quick, I'm hungover.`,
-  `Hi, have you gained weight?`,
-  `Just to start I'm going to say I don't like your tone.`,
-  `What can I do for you, my least favorite?`,
-  `Hello, tubby.`,
-  `I'm here, ready to do what you can't.`
-];
-
-// Things to say for unhandled requests.
-const confusion = [
-  `You're not making any sense.`,
-  `I have no idea what you're talking about.`,
-  `I would ask you to say that again, but I'd prefer you didn't.`
-];
-
-const farewells = [
-  `Well that's just perfect. Goodbye.`,
-  `I don't care for your tone. Goodbye.`,
-  `Buh bye`,
-  `I'm done with you. Bye.`,
-  `I don't have time for this. Bye.`,
-  `I'm leaving now.`
-];
-
 
 // Functions for all of the handlers.
 const handlers = {
@@ -88,7 +61,39 @@ function addSpeehconSSML (text) {
   return text;
 }
 
+////
+////  Welcome to Array Town! Everything below this line
+////  are arrays of strings for various voice commands.
+////  Enjoy your stay!
+////
 
+// An array of strings for pointed greetings.
+const greetings = [
+  `Oh, you again.`,
+  `This had better be quick, I'm hungover.`,
+  `Hi, have you gained weight?`,
+  `Just to start I'm going to say I don't like your tone.`,
+  `What can I do for you, my least favorite?`,
+  `Hello, tubby.`,
+  `I'm here, ready to do what you can't.`
+];
+
+// Things to say for unhandled requests.
+const confusion = [
+  `You're not making any sense.`,
+  `I have no idea what you're talking about.`,
+  `I would ask you to say that again, but I'd prefer you didn't.`
+];
+
+// An array of strings for pointed greetings.
+const farewells = [
+  `Well that's just perfect. Goodbye.`,
+  `I don't care for your tone. Goodbye.`,
+  `Buh bye`,
+  `I'm done with you. Bye.`,
+  `I don't have time for this. Bye.`,
+  `I'm leaving now.`
+];
 
 // List of valid speechcons
 const speechcons = ["abracadabra","achoo","aha","ahem","ahoy","all righty","aloha",
