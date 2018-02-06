@@ -1,31 +1,46 @@
 'use strict';
 
-// Starting up the Alexa SDK.
+// Requiring packages. Alexa SDK, HTTPS...
 const Alexa = require('alexa-sdk');
+const https = require('https');
 
 
 // Functions for all of the handlers.
 const handlers = {
   // First handler, for dealing with skill launch.
   'LaunchRequest' :  function() {
-      let greetReply = greetings[(Math.floor(Math.random() * greetings.length))];
-      this.response.speak(addSpeehconSSML(greetReply));
-      this.emit(`:responseReady`);
+    let greetReply = greetings[(Math.floor(Math.random() * greetings.length))];
+    this.response.speak(addSpeehconSSML(greetReply));
+    this.emit(`:responseReady`);
   },
 
+  // Setting up fake reminders.
+  'ReminderIntent' : function() {
+
+  },
+
+  // Handling search requests.
+  'AMAZON.SearchAction' : function() {
+
+  },
+
+  // Handling requests for more.
+  'AMAZON.MoreIntent' : function() {
+    
+  },
 
   // Stop
   'AMAZON.StopIntent' : function() {
-      let farewellReply = farewells[(Math.floor(Math.random() * farewells.length))];
-      this.response.speak(addSpeehconSSML(farewellReply));
-      this.emit(':responseReady');
+    let farewellReply = farewells[(Math.floor(Math.random() * farewells.length))];
+    this.response.speak(addSpeehconSSML(farewellReply));
+    this.emit(':responseReady');
   },
 
   // Cancel
   'AMAZON.CancelIntent' : function() {
-      let farewellReply = farewells[(Math.floor(Math.random() * farewells.length))];
-      this.response.speak(addSpeehconSSML(farewellReply));
-      this.emit(':responseReady');
+    let farewellReply = farewells[(Math.floor(Math.random() * farewells.length))];
+    this.response.speak(addSpeehconSSML(farewellReply));
+    this.emit(':responseReady');
   },
 
   'SessionEndedRequest' : function() {
@@ -34,18 +49,19 @@ const handlers = {
   },
 
   'Unhandled' : function() {
-      let confusionReply = confusion[(Math.floor(Math.random() * confusion.length))];
-      this.response.speak(addSpeehconSSML(confusionReply));
-      this.emit(':responseReady');
+    let confusionReply = confusion[(Math.floor(Math.random() * confusion.length))];
+    this.response.speak(addSpeehconSSML(confusionReply));
+    this.emit(':responseReady');
   }
 
 };
 
+// Registering the handlers and setting up database.
 exports.handler = function(event, context, callback){
-    const alexa = Alexa.handler(event, context);
-//    alexa.dynamoDBTableName = 'wickedStepmom';
-    alexa.registerHandlers(handlers);
-    alexa.execute();
+  const alexa = Alexa.handler(event, context);
+  alexa.dynamoDBTableName = 'wickedStepmom';
+  alexa.registerHandlers(handlers);
+  alexa.execute();
 };
 
 // Functions outside of the handlers.
@@ -53,8 +69,8 @@ exports.handler = function(event, context, callback){
 
 // This function takes the text and checks for Speechcons, adding appropriate SSML as necessary.
 function addSpeehconSSML (text) {
-  speechcons.forEach(function(element){
-    var elementWithSSML=',<say-as interpret-as="interjection">'+element+'</say-as>,';
+  speechcons.forEach((element) => {
+    let elementWithSSML=',<say-as interpret-as="interjection">'+element+'</say-as>,';
     text = text.replace(element,elementWithSSML);
   });
   console.log(text);
@@ -92,7 +108,8 @@ const farewells = [
   `Buh bye`,
   `I'm done with you. Bye.`,
   `I don't have time for this. Bye.`,
-  `I'm leaving now.`
+  `I'm leaving now.`,
+  `Good riddance.`
 ];
 
 // List of valid speechcons
