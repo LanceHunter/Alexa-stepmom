@@ -4,14 +4,32 @@
 const Alexa = require('alexa-sdk');
 const https = require('https');
 
+const homeCard = {
+  'image' : {
+    'smallImageUrl' : 'https://s3.amazonaws.com/badstepmomimages/bad-stepmom-small.jpeg',
+    'largeImageUrl' : 'https://s3.amazonaws.com/badstepmomimages/bad-stepmom-large.jpeg'
+  }
+}
 
 // Functions for all of the handlers.
 const handlers = {
   // First handler, for dealing with skill launch.
   'LaunchRequest' :  function() {
-    let greetReply = greetings[(Math.floor(Math.random() * greetings.length))];
-    this.response.speak(addSpeehconSSML(greetReply));
-    this.emit(`:responseReady`);
+    if (Object.keys(this.attributes).length === 0) {\
+      let greetReply = greetings[(Math.floor(Math.random() * greetings.length))];
+      this.response.speak(addSpeehconSSML(greetReply));
+      this.response.cardRenderer(`Hello?`, ` ${greetReply}`, homeCard.image);
+      this.emit(`:responseReady`);
+    } else if (Object.keys(this.attributes).includes('reminders')) {
+      let greetReply = greetings[(Math.floor(Math.random() * greetings.length))];
+      // For each reminder that has already expired, go ahead and add them to a list of things we told them we forgot to remind them about.
+      // Add that in to our reply.
+      // Send that reply out to the user.
+    } else {
+
+    }
+
+
   },
 
   // Setting up fake reminders.
@@ -26,12 +44,13 @@ const handlers = {
 
   // Handling requests for more.
   'AMAZON.MoreIntent' : function() {
-    
+
   },
 
   // Stop
   'AMAZON.StopIntent' : function() {
     let farewellReply = farewells[(Math.floor(Math.random() * farewells.length))];
+    this.response.cardRenderer(`buh bye`, ` ${farewellReply}`, homeCard.image);
     this.response.speak(addSpeehconSSML(farewellReply));
     this.emit(':responseReady');
   },
@@ -39,17 +58,19 @@ const handlers = {
   // Cancel
   'AMAZON.CancelIntent' : function() {
     let farewellReply = farewells[(Math.floor(Math.random() * farewells.length))];
+    this.response.cardRenderer(`Done.`, ` ${farewellReply}`, homeCard.image);
     this.response.speak(addSpeehconSSML(farewellReply));
     this.emit(':responseReady');
   },
 
+  // Making sure the state is saved when the session is ended.
   'SessionEndedRequest' : function() {
-//    console.log('session ended!');
-//    this.emit(':saveState', true);
+    this.emit(':saveState', true);
   },
 
   'Unhandled' : function() {
     let confusionReply = confusion[(Math.floor(Math.random() * confusion.length))];
+    this.response.cardRenderer(`What?`, ` ${confusionReply}`, homeCard.image);
     this.response.speak(addSpeehconSSML(confusionReply));
     this.emit(':responseReady');
   }
@@ -59,7 +80,7 @@ const handlers = {
 // Registering the handlers and setting up database.
 exports.handler = function(event, context, callback){
   const alexa = Alexa.handler(event, context);
-  alexa.dynamoDBTableName = 'wickedStepmom';
+  alexa.dynamoDBTableName = 'badStepmom';
   alexa.registerHandlers(handlers);
   alexa.execute();
 };
