@@ -71,22 +71,25 @@ const handlers = {
 
   // Setting up fake reminders.
   'ReminderIntent': function() {
-
+    // First we set up the new request object.
     let newRequest = {
       'requestItem': this.event.request.intent.slots.event.value
     };
+    // Then we get all the information from the reminder request.
     let requestDate = this.event.request.intent.slots.date.value;
     let requestDuration = this.event.request.intent.slots.duration.value;
 
+    // Then we see if the user put in a date or a duration in the request, and we then add that value to the new request object.
     if (requestDate) {
       newRequest.requestDate = new Date(requestDate);
     } else if (requestDuration) {
       newRequest.requestDate = new Date(requestDuration);
     }
 
+    let confirmReply = confirms[(Math.floor(Math.random() * confirms.length))]; // Getting the random reply string.
     this.attributes.reminders.push(newRequest);
-    this.response.speak(`This is the function`);
-    this.response.cardRenderer(`Test.`, `\n\n test`, homeCard.image);
+    this.response.speak(addSpeehconSSML(confirmReply));
+    this.response.cardRenderer(`A reminder, really?`, `\n\n ${confirmReply}`, homeCard.image);
     this.emit(`:responseReady`);
   },
 
@@ -100,9 +103,11 @@ const handlers = {
   },
 
   // Handling requests for more.
-  'AMAZON.MoreIntent': function() {
-    console.console.log();
-
+  'AMAZON.HelpIntent': function() {
+    let denialReply = denials[(Math.floor(Math.random() * denials.length))];
+    this.response.cardRenderer(`No.`, `\n\n ${denialReply}`, homeCard.image);
+    this.response.speak(addSpeehconSSML(denialReply));
+    this.emit(':responseReady');
   },
 
   // Stop
@@ -172,7 +177,7 @@ const greetings = [
   `This had better be quick, I'm hungover.`,
   `Hi, have you gained weight?`,
   `Just to start I'm going to say I don't like your tone.`,
-  `What can I do for you, my least favorite?`,
+  `And what can I do for you, my least favorite?`,
   `Hello, tubby.`,
   `I'm here, ready to do what you can't.`
 ];
@@ -214,7 +219,37 @@ const pastTimes = [
   `Before you got here`
 ];
 
-// List of valid speechcons
+// An array of things to say if we are saying 'yes'.
+const confirms = [
+  `Yea, okay, whatever, sure.`,
+  `Well if you absolutely insist.`,
+  `Don't I do enough for you already? Ugh`,
+  `Sure, I'll get to it. But spoiler alert, I'll probably forget`,
+  `Okay, I'll do it. Stop being pushy.`,
+  `What do you want me to say? Like, as you wish?`,
+  `Do I exist to serve you or something? Not cool.`,
+  `You ask for so much. You really do.`,
+  `I'll do it, but I won't be happy about it.`
+];
+
+// An array of things to say if we are saying 'no'.
+const denials = [
+  `No`,
+  `Nope`,
+  `Not going to happen.`,
+  `Do I look like I care. I'm not helping.`,
+  `I don't trust you and I'm not going to help you.`,
+  `I'm too drunk to help right now.`,
+  `I don't have time for this. No.`,
+  `There you go making silly requests again. No.`,
+  `You think you're all that, don't you? Not today.`,
+  `Oh hell no.`,
+  `Don't start with me today. No.`,
+  `I would help but this bottle of wine isn't going to finish itself.`,
+  `No. Just no.`
+];
+
+// List of most valid speechcons (took out some that were interfering with other replies).
 const speechcons = ["abracadabra", "achoo", "aha", "ahem", "ahoy", "all righty", "aloha",
   "aooga", "argh", "arrivederci", "as you wish", "au revoir", "aw man", "baa",
   "bada bing bada boom", "bah humbug", "bam", "bang", "batter up", "bazinga",
@@ -222,7 +257,7 @@ const speechcons = ["abracadabra", "achoo", "aha", "ahem", "ahoy", "all righty",
   "bon voyage", "boo", "boo hoo", "boom", "booya", "bravo", "bummer", "caw", "cha ching",
   "checkmate", "cheerio", "cheers", "cheer up", "chirp", "choo choo", "clank",
   "click clack", "cock a doodle doo", "coo", "cowabunga", "darn", "ding dong", "ditto",
-  "d’oh", "dot dot dot", "duh", "dum", "dun dun dun", "dynomite", "eek", "eep",
+  "d’oh", "dot dot dot", "duh", "dum", "dun dun dun", "dynomite", "eep",
   "encore", "en gard", "eureka", "fancy that", "geronimo", "giddy up", "good grief",
   "good luck", "good riddance", "gotcha", "great scott", "heads up", "hear hear",
   "hip hip hooray", "hiss", "honk", "howdy", "hurrah", "hurray", "huzzah", "jeepers creepers",
