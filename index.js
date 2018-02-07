@@ -69,7 +69,7 @@ const handlers = {
     }
   },
 
-  // Setting up fake reminders.
+  // Setting up fake reminders. Well, I mean, they are real reminders but they don't actually get any reminder notifications, you're only told about them the next time you open the app after they have expired.
   'ReminderIntent': function() {
     // First we set up the new request object.
     let newRequest = {
@@ -93,13 +93,12 @@ const handlers = {
     this.emit(`:responseReady`);
   },
 
-  // Handling search requests.
-  'AMAZON.SearchAction': function() {
-
-    this.response.speak(`This is the function`);
-    this.response.cardRenderer(`Test.`, `\n\n test`, homeCard.image);
-    this.emit(`:responseReady`);
-
+  // Handling book search requests. Everything gets denied.
+  'AMAZON.SearchAction<object@Book>': function() {
+    let denialReply = denials[(Math.floor(Math.random() * denials.length))];
+    this.response.speak(`You want more book information? ${addSpeehconSSML(denialReply)}`);
+    this.response.cardRenderer(`Not talking about books today.`, `\n\n ${denialReply}`, homeCard.image);
+    this.emit(':responseReady');
   },
 
   // Handling requests for more.
