@@ -15,10 +15,10 @@ const homeCard = {
 const handlers = {
   // First handler, for dealing with skill launch.
   'LaunchRequest' :  function() {
-    if (Object.keys(this.attributes).length === 0) {\
+    if (Object.keys(this.attributes).length === 0) {
       let greetReply = greetings[(Math.floor(Math.random() * greetings.length))];
       this.response.speak(addSpeehconSSML(greetReply));
-      this.response.cardRenderer(`Hello?`, ` ${greetReply}`, homeCard.image);
+      this.response.cardRenderer(`Hello?`, `\n\n ${greetReply}`, homeCard.image);
       this.emit(`:responseReady`);
     } else if (Object.keys(this.attributes).includes('reminders')) {
       let greetReply = greetings[(Math.floor(Math.random() * greetings.length))];
@@ -26,15 +26,22 @@ const handlers = {
       // Add that in to our reply.
       // Send that reply out to the user.
     } else {
-
+      let greetReply = greetings[(Math.floor(Math.random() * greetings.length))];
+      this.response.speak(addSpeehconSSML(greetReply));
+      this.response.cardRenderer(`Oh, you again.`, `\n\n ${greetReply}`, homeCard.image);
+      this.emit(`:responseReady`);
     }
-
-
   },
 
   // Setting up fake reminders.
   'ReminderIntent' : function() {
 
+    
+
+
+    this.response.speak(`This is the function`);
+    this.response.cardRenderer(`Test.`, `\n\n test`, homeCard.image);
+    this.emit(`:responseReady`);
   },
 
   // Handling search requests.
@@ -44,13 +51,14 @@ const handlers = {
 
   // Handling requests for more.
   'AMAZON.MoreIntent' : function() {
+    console.console.log();
 
   },
 
   // Stop
   'AMAZON.StopIntent' : function() {
     let farewellReply = farewells[(Math.floor(Math.random() * farewells.length))];
-    this.response.cardRenderer(`buh bye`, ` ${farewellReply}`, homeCard.image);
+    this.response.cardRenderer(`We're done here.`, `\n\n ${farewellReply}`, homeCard.image);
     this.response.speak(addSpeehconSSML(farewellReply));
     this.emit(':responseReady');
   },
@@ -58,19 +66,22 @@ const handlers = {
   // Cancel
   'AMAZON.CancelIntent' : function() {
     let farewellReply = farewells[(Math.floor(Math.random() * farewells.length))];
-    this.response.cardRenderer(`Done.`, ` ${farewellReply}`, homeCard.image);
+    this.response.cardRenderer(`Me, cancel?`, `\n\n ${farewellReply}`, homeCard.image);
     this.response.speak(addSpeehconSSML(farewellReply));
     this.emit(':responseReady');
   },
 
   // Making sure the state is saved when the session is ended.
   'SessionEndedRequest' : function() {
+    let farewellReply = farewells[(Math.floor(Math.random() * farewells.length))];
+    this.response.cardRenderer(`buy bye.`, `\n\n ${farewellReply}`, homeCard.image);
+    this.response.speak(addSpeehconSSML(farewellReply));
     this.emit(':saveState', true);
   },
 
   'Unhandled' : function() {
-    let confusionReply = confusion[(Math.floor(Math.random() * confusion.length))];
-    this.response.cardRenderer(`What?`, ` ${confusionReply}`, homeCard.image);
+    let confusionReply = confusions[(Math.floor(Math.random() * confusions.length))];
+    this.response.cardRenderer(`What?`, `\n\n ${confusionReply}`, homeCard.image);
     this.response.speak(addSpeehconSSML(confusionReply));
     this.emit(':responseReady');
   }
@@ -80,6 +91,7 @@ const handlers = {
 // Registering the handlers and setting up database.
 exports.handler = function(event, context, callback){
   const alexa = Alexa.handler(event, context);
+  alexa.appId = process.env.appId;
   alexa.dynamoDBTableName = 'badStepmom';
   alexa.registerHandlers(handlers);
   alexa.execute();
@@ -116,11 +128,19 @@ const greetings = [
 ];
 
 // Things to say for unhandled requests.
-const confusion = [
+const confusions = [
   `You're not making any sense.`,
   `I have no idea what you're talking about.`,
   `I would ask you to say that again, but I'd prefer you didn't.`
 ];
+
+const saymore = [
+  `Do you really need to know more?`,
+  `I think you've had enough.`,
+  `That's gonna be a no. wah wah`,
+  `aw man do you really need more?`,
+  `le sigh`
+]
 
 // An array of strings for pointed greetings.
 const farewells = [
