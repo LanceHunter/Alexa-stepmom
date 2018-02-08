@@ -4,6 +4,10 @@
 const Alexa = require('alexa-sdk');
 const https = require('https');
 
+// Taking the Oxford Dictionary API info from process.env and putting it into regular variables.
+const oxfordId = process.env.oxfordAppId;
+const oxfordKey = process.env.oxfordAppKey;
+
 const homeCard = {
   'image': {
     'smallImageUrl': 'https://s3.amazonaws.com/badstepmomimages/bad-stepmom-small.jpeg',
@@ -13,6 +17,8 @@ const homeCard = {
 
 // Functions for all of the handlers.
 const handlers = {
+
+////////////////////////// Breakline (between each handler).
   // First handler, for dealing with skill launch.
   'LaunchRequest': function() {
     if (Object.keys(this.attributes).length === 0) {
@@ -71,6 +77,8 @@ const handlers = {
     }
   },
 
+////////////////////////// Breakline (between each handler).
+
   // Setting up fake reminders. Well, I mean, they are real reminders but they don't actually get any reminder notifications, you're only told about them the next time you open the app after they have expired.
   'ReminderIntent': function() {
     // First we set up the new request object.
@@ -95,6 +103,17 @@ const handlers = {
     this.emit(`:responseReady`);
   },
 
+  ////////////////////////// Breakline (between each handler).
+
+  'AMAZON.RepeatIntent' : function() {
+    let denialReply = denials[(Math.floor(Math.random() * denials.length))];
+    this.response.cardRenderer(`No.`, `\n\n ${denialReply}`, homeCard.image);
+    this.response.speak(addSpeehconSSML(denialReply));
+    this.emit(':responseReady');
+  },
+
+////////////////////////// Breakline (between each handler).
+
   // Handling book search requests. Everything gets denied.
   'AMAZON.SearchAction<object@Book>': function() {
     let denialReply = denials[(Math.floor(Math.random() * denials.length))];
@@ -103,13 +122,87 @@ const handlers = {
     this.emit(':responseReady');
   },
 
-  // Handling requests for more.
+  ////////////////////////// Breakline (between each handler).
+
+  'AMAZON.SearchAction<object@Calendar>' : function() {
+    let denialReply = denials[(Math.floor(Math.random() * denials.length))];
+    this.response.speak(`Why do you expect me to know your calendar? ${addSpeehconSSML(denialReply)}`);
+    this.response.cardRenderer(`I'm not your scheduler.`, `\n\n ${denialReply}`, homeCard.image);
+    this.emit(':responseReady');
+  },
+
+////////////////////////// Breakline (between each handler).
+
+  'AMAZON.SearchAction<object@CreativeWork>' : function() {
+    let denialReply = denials[(Math.floor(Math.random() * denials.length))];
+    this.response.speak(`You have poor taste, you know? ${addSpeehconSSML(denialReply)}`);
+    this.response.cardRenderer(`That's no good.`, `\n\n ${denialReply}`, homeCard.image);
+    this.emit(':responseReady');
+  },
+
+////////////////////////// Breakline (between each handler).
+
+  'AMAZON.SearchAction<object@Event>' : function() {
+    let denialReply = denials[(Math.floor(Math.random() * denials.length))];
+    this.response.speak(`You don't want to do that. ${addSpeehconSSML(denialReply)}`);
+    this.response.cardRenderer(`You haven't earned it.`, `\n\n ${denialReply}`, homeCard.image);
+    this.emit(':responseReady');
+  },
+
+////////////////////////// Breakline (between each handler).
+
+  'AMAZON.SearchAction<object@LocalBusiness>' : function() {
+    let denialReply = denials[(Math.floor(Math.random() * denials.length))];
+    this.response.speak(`Why would you ever want to go there? ${addSpeehconSSML(denialReply)}`);
+    this.response.cardRenderer(`This is for the best.`, `\n\n ${denialReply}`, homeCard.image);
+    this.emit(':responseReady');
+  },
+
+////////////////////////// Breakline (between each handler).
+
+  'AMAZON.SearchAction<object@ScreeningEvent>' : function() {
+    let denialReply = denials[(Math.floor(Math.random() * denials.length))];
+    this.response.speak(`You don't want to watch that trash. ${addSpeehconSSML(denialReply)}`);
+    this.response.cardRenderer(`You should think better of yourself.`, `\n\n ${denialReply}`, homeCard.image);
+    this.emit(':responseReady');
+  },
+
+////////////////////////// Breakline (between each handler).
+
+  'AMAZON.SearchAction<object@WeatherForecast>' : function() {
+    let denialReply = denials[(Math.floor(Math.random() * denials.length))];
+    this.response.speak(`As if you ever actually go outside. ${addSpeehconSSML(denialReply)}`);
+    this.response.cardRenderer(`Planning a date? I thought not.`, `\n\n ${denialReply}`, homeCard.image);
+    this.emit(':responseReady');
+  }
+
+////////////////////////// Breakline (between each handler).
+
+  'AMAZON.StartOverIntent' : function() {
+    //Function to be added soon.
+  },
+
+////////////////////////// Breakline (between each handler).
+
+  // Handling requests for help.
   'AMAZON.HelpIntent': function() {
     let denialReply = denials[(Math.floor(Math.random() * denials.length))];
     this.response.cardRenderer(`No.`, `\n\n ${denialReply}`, homeCard.image);
     this.response.speak(addSpeehconSSML(denialReply));
     this.emit(':responseReady');
   },
+
+  ////////////////////////// Breakline (between each handler).
+
+  'AMAZON.AddAction<object@Event>' : function() {
+    let denialReply = denials[(Math.floor(Math.random() * denials.length))];
+    this.response.cardRenderer(`No.`, `\n\n ${denialReply}`, homeCard.image);
+    this.response.speak(addSpeehconSSML(denialReply));
+    this.emit(':responseReady');
+  },
+
+
+  ////////////////////////// Breakline (between each handler).
 
   // Stop
   'AMAZON.StopIntent': function() {
@@ -119,6 +212,8 @@ const handlers = {
     this.emit(':responseReady');
   },
 
+////////////////////////// Breakline (between each handler).
+
   // Cancel
   'AMAZON.CancelIntent': function() {
     let farewellReply = farewells[(Math.floor(Math.random() * farewells.length))];
@@ -126,6 +221,8 @@ const handlers = {
     this.response.speak(addSpeehconSSML(farewellReply));
     this.emit(':responseReady');
   },
+
+////////////////////////// Breakline (between each handler).
 
   // Making sure the state is saved when the session is ended.
   'SessionEndedRequest': function() {
@@ -143,6 +240,8 @@ const handlers = {
   }
 
 };
+
+
 
 // Registering the handlers and setting up database.
 exports.handler = function(event, context, callback) {
