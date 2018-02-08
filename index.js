@@ -346,7 +346,20 @@ const denials = [
   `Oh hell no.`,
   `Don't start with me today. No.`,
   `I would help but this bottle of wine isn't going to finish itself.`,
-  `No. Just no.`
+  `No. Just no.`,
+  `I came here to say no and chew bubblegum, and I'm all out of bubblegum.`,
+  `I don't think so.`,
+  `Forget it.`,
+  `Yeah, how about no.`,
+  `Lol, no.`,
+  `Why don't you ask your father?`,
+  `Just stop.`,
+  `Are you serious? Oh, you are. Then no.`,
+  `I can't even with that.`,
+  `Must be nice, living in a fantasy world.`,
+  `Forecast is unlikely.`,
+  `I'd prefer not to.`,
+  `I know you want me to help, but I don't want to.`
 ];
 
 // List of most valid speechcons (took out some that were interfering with other replies).
