@@ -9,7 +9,7 @@ const homeCard = {
     'smallImageUrl': 'https://s3.amazonaws.com/badstepmomimages/bad-stepmom-small.jpeg',
     'largeImageUrl': 'https://s3.amazonaws.com/badstepmomimages/bad-stepmom-large.jpeg'
   }
-}
+};
 
 // Functions for all of the handlers.
 const handlers = {
@@ -35,9 +35,11 @@ const handlers = {
       });
 
       let greetReply = greetings[(Math.floor(Math.random() * greetings.length))]; // Getting the random reply string.
+      let textGreetReply = '';
 
       if (oldReminders.length > 0) {
         greetReply = greetReply + ` Oh, and I forgot to remind you. `; // Setting up the forgotten reminders section.
+        textGreetReply = greetReply; // The printed/text version of the greeting will different in case there's a date in the reminders.
         oldReminders.forEach((reminder) => {
           // Going through each expired reminder, removing them from the user's reminders, and adding them to the list of things the skill tells you they forgot.
           this.attributes.reminders.splice(this.attributes.reminders.indexOf(reminder), 1);
@@ -47,18 +49,18 @@ const handlers = {
             if (monthDigits < 10) {monthDigits = `0${monthDigits}`};
             let dayDigits = reminderTime.getDate();
             if (dayDigits < 10) {dayDigits = `0${dayDigits}`};
-            let saidTime = `<say-as interpret-as="date">????${monthdigits}${dayDigits}</say-as>`;
+            let saidTime = `<say-as interpret-as="date">????${monthDigits}${dayDigits}</say-as>`;
             greetReply = greetReply + `On ${saidTime} you were supposed to ${reminder.requestItem}. `;
+            textGreetReply = textGreetReply + `You were supposed to ${reminder.requestItem}. `;
           } else {
-
             let pastTime = pastTimes[(Math.floor(Math.random() * pastTimes.length))];
             greetReply = greetReply + `${pastTime} you needed to ${reminder.requestItem}. `;
+            textGreetReply = textGreetReply + `${pastTime} you needed to ${reminder.requestItem}. `;
           }
         });
       };
-
       this.response.speak(addSpeehconSSML(greetReply));
-      this.response.cardRenderer(`Oh, you again.`, `\n\n ${greetReply}`, homeCard.image);
+      this.response.cardRenderer(`Oh, you again.`, `\n\n ${textGreetReply}`, homeCard.image);
       this.emit(`:responseReady`);
 
     } else {
