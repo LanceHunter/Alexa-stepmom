@@ -41,7 +41,7 @@ const handlers = {
       });
 
       let greetReply = greetings[(Math.floor(Math.random() * greetings.length))]; // Getting the random reply string.
-      let textGreetReply = '';
+      let textGreetReply = greetReply;
 
       if (oldReminders.length > 0) {
         greetReply = greetReply + ` Oh, and I forgot to remind you. `; // Setting up the forgotten reminders section.
@@ -103,7 +103,79 @@ const handlers = {
     this.emit(`:responseReady`);
   },
 
-  ////////////////////////// Breakline (between each handler).
+////////////////////////// Breakline (between each handler).
+
+  // Here's a definition function. We will take words and send the definition, with a bit of a twist.
+  'DefineIntent' : function() {
+    let word = this.event.request.intent.slots.word.value;
+    let options = {
+      hostname : 'od-api.oxforddictionaries.com',
+      port : 443,
+      headers : {
+        'Accept' : `application/json`,
+        'app_id' : oxfordId,
+        'app_key' : oxfordKey
+      },
+      path : `/api/v1/entries/en/${word}/regions=us`
+    };
+    `https://od-api.oxforddictionaries.com:443/api/v1/entries/`
+    https.get(options, (res) => {
+      const { statusCode } = res;
+      const contentType = res.headers['content-type'];
+      let error;
+      if (statusCode !== 200) {
+        error = new Error('Request Failed.\n' +
+                          `Status Code: ${statusCode}`);
+      } else if (!/^application\/json/.test(contentType)) {
+        error = new Error('Invalid content-type.\n' +
+                          `Expected application/json but received ${contentType}`);
+      }
+      if (error) {
+        console.error(error.message);
+        // consume response data to free up memory
+        res.resume();
+        return;
+      }
+      res.setEncoding('utf8');
+      let rawData = '';
+      res.on('data', (chunk) => { rawData += chunk; });
+      res.on('end', () => {
+        try {
+          // Here is where we go if the reply is good. Time to parse the reply JSON.
+          let parsedData = JSON.parse(rawData);
+          let etymology = parsedData.results[0].lexicalEntries[0].entries[0].etymologies[0];
+          let meanings =  parsedData.results[0].lexicalEntries[0].entries[0].senses.map((sense) => {
+            return sense.definitions[0];
+          });
+          console.log('The reply - ', etymology);
+          let defineReply = `Oh, you need to know about ${word}? Well, I bet you didn't know it comes from ${etymology}. And how could you know that it could mean ${meanings.join(', or ')}. Now consider yourself educated.`;
+          this.response.cardRenderer(`Let me educate you.`, `\n\n ${defineReply}`, homeCard.image);
+          this.response.speak(addSpeehconSSML(defineReply));
+          this.emit(':responseReady');
+        } catch (e) {
+          console.error(e.message);
+          let denialReply = denials[(Math.floor(Math.random() * denials.length))];
+          this.response.cardRenderer(`No.`, `\n\n ${denialReply}`, homeCard.image);
+          this.response.speak(addSpeehconSSML(denialReply));
+          this.emit(':responseReady');
+        }
+      });
+      }).on('error', (e) => {
+      console.error(`Got error: ${e.message}`);
+      let denialReply = denials[(Math.floor(Math.random() * denials.length))];
+      this.response.cardRenderer(`No.`, `\n\n ${denialReply}`, homeCard.image);
+      this.response.speak(addSpeehconSSML(denialReply));
+      this.emit(':responseReady');
+    });
+
+
+//    let denialReply = denials[(Math.floor(Math.random() * denials.length))];
+//    this.response.cardRenderer(`No.`, `\n\n ${word}`, homeCard.image);
+//    this.response.speak(addSpeehconSSML(denialReply));
+//    this.emit(':responseReady');
+  },
+
+////////////////////////// Breakline (between each handler).
 
   'AMAZON.RepeatIntent' : function() {
     let denialReply = denials[(Math.floor(Math.random() * denials.length))];
@@ -174,7 +246,7 @@ const handlers = {
     this.response.speak(`As if you ever actually go outside. ${addSpeehconSSML(denialReply)}`);
     this.response.cardRenderer(`Planning a date? I thought not.`, `\n\n ${denialReply}`, homeCard.image);
     this.emit(':responseReady');
-  }
+  },
 
 ////////////////////////// Breakline (between each handler).
 
@@ -347,7 +419,7 @@ const denials = [
   `Don't start with me today. No.`,
   `I would help but this bottle of wine isn't going to finish itself.`,
   `No. Just no.`,
-  `I came here to say no and chew bubblegum, and I'm all out of bubblegum.`,
+  `I came here to chew bubblegum and say no, and I'm all out of bubblegum.`,
   `I don't think so.`,
   `Forget it.`,
   `Yeah, how about no.`,
@@ -359,33 +431,42 @@ const denials = [
   `Must be nice, living in a fantasy world.`,
   `Forecast is unlikely.`,
   `I'd prefer not to.`,
-  `I know you want me to help, but I don't want to.`
+  `I know you want me to help, but I don't want to.`,
+  `Don't hold your breath.`,
+  `Not in a million years.`,
+  `You seem to have grossly misjudged the situation.`,
+  `You seem to have mistaken me for your servant.`,
+  `I hope you're joking.`,
+  `I would, but I just realized I don't want to.`,
+  `I've got an alternative proposal. How about no.`,
+  `You want some help. People in hell want ice water.`,
+  `If you think I'm going to do that you need to get your head examined.`
 ];
 
 // List of most valid speechcons (took out some that were interfering with other replies).
-const speechcons = ["abracadabra", "achoo", "aha", "ahem", "ahoy", "all righty", "aloha",
-  "aooga", "argh", "arrivederci", "as you wish", "au revoir", "aw man", "baa",
+const speechcons = ["abracadabra", "achoo", " aha", "ahem", "ahoy", "all righty", "aloha",
+  "aooga", " argh ", "arrivederci", "as you wish", "au revoir", "aw man", " baa ",
   "bada bing bada boom", "bah humbug", "bam", "bang", "batter up", "bazinga",
   "beep beep", "bingo", "blah", "blarg", "blast", "boing", "bon appetit", "bonjour",
-  "bon voyage", "boo", "boo hoo", "boom", "booya", "bravo", "bummer", "caw", "cha ching",
+  "bon voyage", "boo", "boo hoo", "boom", "booya", "bravo", "bummer", " caw ", "cha ching",
   "checkmate", "cheerio", "cheers", "cheer up", "chirp", "choo choo", "clank",
-  "click clack", "cock a doodle doo", "coo", "cowabunga", "darn", "ding dong", "ditto",
-  "d’oh", "dot dot dot", "duh", "dum", "dun dun dun", "dynomite", "eep",
+  "click clack", "cock a doodle doo", " coo ", "cowabunga", "darn", "ding dong", "ditto",
+  "d’oh", "dot dot dot", "duh", "dum", "dun dun dun", "dynomite", " eep",
   "encore", "en gard", "eureka", "fancy that", "geronimo", "giddy up", "good grief",
   "good luck", "good riddance", "gotcha", "great scott", "heads up", "hear hear",
   "hip hip hooray", "hiss", "honk", "howdy", "hurrah", "hurray", "huzzah", "jeepers creepers",
   "jiminy cricket", "jinx", "just kidding", "kaboom", "kablam", "kaching", "kapow",
   "katchow", "kazaam", "kerbam", "kerboom", "kerching", "kerchoo", "kerflop",
   "kerplop", "kerplunk", "kerpow", "kersplat", "kerthump", "knock knock", "le sigh",
-  "look out", "mamma mia", "man overboard", "mazel tov", "meow", "merci", "moo",
+  "look out", "mamma mia", "man overboard", "mazel tov", "meow", "merci", " moo ",
   "nanu nanu", "neener neener", "no way", "now now", "oh boy", "oh brother", "oh dear",
-  "oh my", "oh snap", "oink", "okey dokey", "oof", "ooh la la", "open sesame", "ouch",
-  "oy", "phew", "phooey", "ping", "plop", "poof", "pop", "pow", "quack", "read ‘em and weep",
+  "oh my", "oh snap", "oink", "okey dokey", " oof ", "ooh la la", "open sesame", " ouch ",
+  " oy ", "phew", "phooey", "ping", "plop", "poof", " pop ", " pow ", "quack", "read ‘em and weep",
   "ribbit", "righto", "roger", "ruh roh", "shucks", "splash", "spoiler alert", "squee",
   "swish", "swoosh", "ta da", "ta ta", "tee hee", "there there", "thump", "tick tick tick",
   "tick-tock", "touche", "tsk tsk", "tweet", "uh huh", "uh oh", "voila", "vroom",
   "wahoo", "wah wah", "watch out", "way to go", "well done", "well well", "wham",
   "whammo", "whee", "whew", "woof", "whoops a daisy", "whoosh", "woo hoo", "wow",
   "wowza", "wowzer", "yadda yadda yadda", "yay", "yikes", "yippee", "yoink", "yoo hoo",
-  "you bet", "yowza", "yowzer", "yuck", "yum", "zap", "zing", "zoinks",
+  "you bet", "yowza", "yowzer", "yuck", " yum ", "zap", "zing", "zoinks",
 ];
