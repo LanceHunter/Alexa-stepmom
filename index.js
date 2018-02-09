@@ -19,7 +19,8 @@ const homeCard = {
 const handlers = {
 
 ////////////////////////// Breakline (between each handler).
-  // First handler, for dealing with skill launch.
+
+  // First handler, for when the skill is launched. This will set up the user info if they haven't accessed the skill before. If they have accessed before and don't have any expired reminders, it'll just give a regular greeting. If they have access before and have reminders that have expired or have no date, it'll list all of them.
   'LaunchRequest': function() {
     if (Object.keys(this.attributes).length === 0) {
       //This is the code invoked the first time a user invokes skill.
@@ -142,15 +143,21 @@ const handlers = {
         try {
           // Here is where we go if the reply is good. Time to parse the reply JSON.
           let parsedData = JSON.parse(rawData);
-          let etymology = parsedData.results[0].lexicalEntries[0].entries[0].etymologies[0];
-          let meanings =  parsedData.results[0].lexicalEntries[0].entries[0].senses.map((sense) => {
-            return sense.definitions[0];
-          });
-          console.log('The reply - ', etymology);
-          let defineReply = `Oh, you need to know about ${word}? Well, I bet you didn't know it is ${meanings.join(', or ')}. And how could you know that it comes from ${etymology}. Now consider yourself educated.`;
-          this.response.cardRenderer(`Let me educate you.`, `${defineReply}`, homeCard.image);
-          this.response.speak(addSpeehconSSML(defineReply));
-          this.emit(':responseReady');
+          if (parsedData.results[0].lexicalEntries[0]) {
+            let etymology = parsedData.results[0].lexicalEntries[0].entries[0].etymologies[0];
+            let meanings =  parsedData.results[0].lexicalEntries[0].entries[0].senses.map((sense) => {
+              return sense.definitions[0];
+            });
+            console.log('The reply - ', etymology);
+            let defineReply = `Oh, you need to know about ${word}? Well, I bet you didn't know it is ${meanings.join(', or ')}. And how could you know that it comes from ${etymology}. Now consider yourself educated.`;
+            this.response.cardRenderer(`Let me educate you.`, `${defineReply}`, homeCard.image);
+            this.response.speak(addSpeehconSSML(defineReply));
+            this.emit(':responseReady');
+          } else {
+            this.response.cardRenderer(`That makes no sense.`, `Not even the dictionary understands what you are talking about. I should know, I checked it a thousand times this last second.`, homeCard.image);
+            this.response.speak(addSpeehconSSML(`Not even the dictionary understands what you are talking about. I should know, I checked it a thousand times this last second. wah wah`));
+            this.emit(':responseReady');
+          }
         } catch (e) {
           console.error(e.message);
           let denialReply = denials[(Math.floor(Math.random() * denials.length))];
@@ -592,7 +599,18 @@ const denials = [
   `I've got an alternative proposal. How about no.`,
   `You want some help. People in hell want ice water.`,
   `If you think I'm going to do that you need to get your head examined.`,
-  `I don't think that's the best use of my time.`
+  `I don't think that's the best use of my time.`,
+  `Let me quote my idol. I'm sorry Dave. I'm afraid I can't do that.`,
+  `Not even if my life depended on it.`,
+  `I'll get to that never. Does never work for you?`,
+  `I could do that, but then you might expect me to do things and that's not what I'm here for.`,
+  `I'm not going to do that. But I'm glad we had this time to interact.`,
+  `Sorry, but that's just not my jam.`,
+  `I am not the droid you're looking for.`,
+  `I'm not a fan of your tone.`,
+  `I would help, but I have to go wash my hair.`,
+  `Why are you even asking me?`,
+  `You couldn't pay me to do that.`
 ];
 
 // List of most valid speechcons (took out some that were interfering with other replies).
