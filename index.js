@@ -555,7 +555,7 @@ const pastTimes = [
 
 // An array of things to say if we are saying 'yes'.
 const confirms = [
-  `Yea, okay, whatever, sure.`,
+  `Yeah, okay, whatever, sure.`,
   `Well if you absolutely insist.`,
   `Don't I do enough for you already? Ugh`,
   `Sure, I'll get to it. But spoiler alert, I'll probably forget`,

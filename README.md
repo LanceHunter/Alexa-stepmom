@@ -2,7 +2,7 @@
 
 Bad Stepmom is an Alexa skill with two primary pieces of functionality.
 - She can set reminders, but will only tell you about those reminders when she is launched after the time for the reminder has expired.
-- She can define any english word in the Oxford English Dictionary. These definitions are also presented in a less
+- She can define any english word in the Oxford English Dictionary. These definitions are presented in a condescending manner.
 
 She can also accept a wide variety of requests for many other things, but she will always give a snarky denial for any of those requests.
 
