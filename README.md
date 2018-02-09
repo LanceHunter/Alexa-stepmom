@@ -1,21 +1,25 @@
-# Alexa Stepmom
+# Bad Stepmom
 
-Stepmom is an Alexa skill that will attempt to create a full set of features delivered in a snarky, judgmental tone.
+Bad Stepmom is an Alexa skill with two primary pieces of functionality.
+- She can set reminders, but will only tell you about those reminders when she is launched after the time for the reminder has expired.
+- She can define any english word in the Oxford English Dictionary. These definitions are also presented in a less
+
+She can also accept a wide variety of requests for many other things, but she will always give a snarky denial for any of those requests.
 
 Some examples:
 
-*Stepmom please remind me to get groceries tomorrow.*
+*Alexa tell Bad Stepmom to remind me to get groceries tomorrow.*
 
-**Fine, if you are going to get so drunk that you forget every simple thing, then I guess I'll have to remind you.**
+**Yea, okay, whatever, sure.**
 
-*Stepmom please tell me what movies are playing tonight.*
+*Alexa ask Bad Stepmom what movies are playing tonight.*
 
-**I see that there's a new romantic comedy that opened recently. You remember romance, or have you been single too long?**
+**Why would I do that?**
 
-*Stepmom please make a reservation for two at Three Forks next Friday.*
+*Alexa ask Bad Stepmom to please make a reservation for two at Three Forks next Friday.*
 
-**Oh is this a date? Well I'll go ahead and order some wine for when it goes poorly.**
+**You have terrible taste and I'm not going to do that.**
 
-*Stepmom please play my workout playlist.*
+*Alexa ask Bad Stepmom to define galvanize.*
 
-**Okay, here's some music for your much-needed exercise.**
+**Oh, you need to know about galvanize? Well, I bet you didn't know it is shock or excite (someone) into taking action, or coat (iron or steel) with a protective layer of zinc. And how could you know that it comes from early 19th century (in the sense ‘stimulate by electricity’): from French galvaniser (see Galvani, Luigi). Now consider yourself educated.**

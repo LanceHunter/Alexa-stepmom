@@ -27,7 +27,7 @@ const handlers = {
       this.attributes['reminders'] = []; // Setting up array of reminders for new user.
       let greetReply = greetings[(Math.floor(Math.random() * greetings.length))]; // Getting a random greeting.
       this.response.speak(addSpeehconSSML(greetReply));
-      this.response.cardRenderer(`Hello?`, `\n\n ${greetReply}`, homeCard.image);
+      this.response.cardRenderer(`Hello?`, ` ${greetReply}`, homeCard.image);
       this.emit(`:responseReady`); // Emitting the response.
     } else if (Object.keys(this.attributes).includes('reminders')) {
       let now = new Date(); // Getting current date.
@@ -67,13 +67,13 @@ const handlers = {
         });
       };
       this.response.speak(addSpeehconSSML(greetReply));
-      this.response.cardRenderer(`Oh, you again.`, `\n\n ${textGreetReply}`, homeCard.image);
+      this.response.cardRenderer(`Oh, you again.`, ` ${textGreetReply}`, homeCard.image);
       this.emit(`:responseReady`);
 
     } else {
       let greetReply = greetings[(Math.floor(Math.random() * greetings.length))];
       this.response.speak(addSpeehconSSML(greetReply));
-      this.response.cardRenderer(`Oh, you again.`, `\n\n ${greetReply}`, homeCard.image);
+      this.response.cardRenderer(`Oh, you again.`, ` ${greetReply}`, homeCard.image);
       this.emit(`:responseReady`);
     }
   },
@@ -100,7 +100,7 @@ const handlers = {
     let confirmReply = confirms[(Math.floor(Math.random() * confirms.length))]; // Getting the random reply string.
     this.attributes.reminders.push(newRequest);
     this.response.speak(addSpeehconSSML(confirmReply));
-    this.response.cardRenderer(`A reminder, really?`, `\n\n ${confirmReply}`, homeCard.image);
+    this.response.cardRenderer(`A reminder, really?`, ` ${confirmReply}`, homeCard.image);
     this.emit(`:responseReady`);
   },
 
@@ -161,7 +161,7 @@ const handlers = {
         } catch (e) {
           console.error(e.message);
           let denialReply = denials[(Math.floor(Math.random() * denials.length))];
-          this.response.cardRenderer(`No.`, `\n\n ${denialReply}`, homeCard.image);
+          this.response.cardRenderer(`No.`, ` ${denialReply}`, homeCard.image);
           this.response.speak(addSpeehconSSML(denialReply));
           this.emit(':responseReady');
         }
@@ -169,7 +169,7 @@ const handlers = {
       }).on('error', (e) => {
       console.error(`Got error: ${e.message}`);
       let denialReply = denials[(Math.floor(Math.random() * denials.length))];
-      this.response.cardRenderer(`No.`, `\n\n ${denialReply}`, homeCard.image);
+      this.response.cardRenderer(`No.`, ` ${denialReply}`, homeCard.image);
       this.response.speak(addSpeehconSSML(denialReply));
       this.emit(':responseReady');
     });
@@ -179,7 +179,7 @@ const handlers = {
 
   'AMAZON.RepeatIntent' : function() {
     let repeatReply = repeats[(Math.floor(Math.random() * repeats.length))];
-    this.response.cardRenderer(`No.`, `\n\n ${repeatReply}`, homeCard.image);
+    this.response.cardRenderer(`No.`, ` ${repeatReply}`, homeCard.image);
     this.response.speak(addSpeehconSSML(repeatReply));
     this.emit(':responseReady');
   },
@@ -190,7 +190,7 @@ const handlers = {
   'AMAZON.SearchAction<object@Book>': function() {
     let denialReply = denials[(Math.floor(Math.random() * denials.length))];
     this.response.speak(`You want more book information? ${addSpeehconSSML(denialReply)}`);
-    this.response.cardRenderer(`Not talking about books today.`, `\n\n ${denialReply}`, homeCard.image);
+    this.response.cardRenderer(`Not talking about books today.`, ` ${denialReply}`, homeCard.image);
     this.emit(':responseReady');
   },
 
@@ -199,7 +199,7 @@ const handlers = {
   'AMAZON.SearchAction<object@Calendar>' : function() {
     let denialReply = denials[(Math.floor(Math.random() * denials.length))];
     this.response.speak(`Why do you expect me to know your calendar? ${addSpeehconSSML(denialReply)}`);
-    this.response.cardRenderer(`I'm not your scheduler.`, `\n\n ${denialReply}`, homeCard.image);
+    this.response.cardRenderer(`I'm not your scheduler.`, ` ${denialReply}`, homeCard.image);
     this.emit(':responseReady');
   },
 
@@ -208,7 +208,7 @@ const handlers = {
   'AMAZON.SearchAction<object@CreativeWork>' : function() {
     let denialReply = denials[(Math.floor(Math.random() * denials.length))];
     this.response.speak(`You have poor taste, you know? ${addSpeehconSSML(denialReply)}`);
-    this.response.cardRenderer(`That's no good.`, `\n\n ${denialReply}`, homeCard.image);
+    this.response.cardRenderer(`That's no good.`, ` ${denialReply}`, homeCard.image);
     this.emit(':responseReady');
   },
 
@@ -217,7 +217,7 @@ const handlers = {
   'AMAZON.SearchAction<object@Event>' : function() {
     let denialReply = denials[(Math.floor(Math.random() * denials.length))];
     this.response.speak(`You don't want to do that. ${addSpeehconSSML(denialReply)}`);
-    this.response.cardRenderer(`You haven't earned it.`, `\n\n ${denialReply}`, homeCard.image);
+    this.response.cardRenderer(`You haven't earned it.`, ` ${denialReply}`, homeCard.image);
     this.emit(':responseReady');
   },
 
@@ -226,7 +226,7 @@ const handlers = {
   'AMAZON.SearchAction<object@LocalBusiness>' : function() {
     let denialReply = denials[(Math.floor(Math.random() * denials.length))];
     this.response.speak(`Why would you ever want to go there? ${addSpeehconSSML(denialReply)}`);
-    this.response.cardRenderer(`This is for the best.`, `\n\n ${denialReply}`, homeCard.image);
+    this.response.cardRenderer(`This is for the best.`, ` ${denialReply}`, homeCard.image);
     this.emit(':responseReady');
   },
 
@@ -235,7 +235,7 @@ const handlers = {
   'AMAZON.SearchAction<object@ScreeningEvent>' : function() {
     let denialReply = denials[(Math.floor(Math.random() * denials.length))];
     this.response.speak(`You don't want to watch that trash. ${addSpeehconSSML(denialReply)}`);
-    this.response.cardRenderer(`You should think better of yourself.`, `\n\n ${denialReply}`, homeCard.image);
+    this.response.cardRenderer(`You should think better of yourself.`, ` ${denialReply}`, homeCard.image);
     this.emit(':responseReady');
   },
 
@@ -244,7 +244,7 @@ const handlers = {
   'AMAZON.SearchAction<object@WeatherForecast>' : function() {
     let denialReply = denials[(Math.floor(Math.random() * denials.length))];
     this.response.speak(`As if you ever actually go outside. ${addSpeehconSSML(denialReply)}`);
-    this.response.cardRenderer(`Planning a date? I thought not.`, `\n\n ${denialReply}`, homeCard.image);
+    this.response.cardRenderer(`Planning a date? I thought not.`, ` ${denialReply}`, homeCard.image);
     this.emit(':responseReady');
   },
 
@@ -253,7 +253,7 @@ const handlers = {
   'AMAZON.SuspendAction<object@Book>' : function() {
     let denialReply = denials[(Math.floor(Math.random() * denials.length))];
     this.response.speak(`You want more book information? ${addSpeehconSSML(denialReply)}`);
-    this.response.cardRenderer(`Planning a date? I thought not.`, `\n\n ${denialReply}`, homeCard.image);
+    this.response.cardRenderer(`Planning a date? I thought not.`, ` ${denialReply}`, homeCard.image);
     this.emit(':responseReady');
   },
 
@@ -262,7 +262,7 @@ const handlers = {
   'AMAZON.StartOverIntent' : function() {
     let denialReply = denials[(Math.floor(Math.random() * denials.length))];
     this.response.speak(`As if you ever actually go outside. ${addSpeehconSSML(denialReply)}`);
-    this.response.cardRenderer(`Planning a date? I thought not.`, `\n\n ${denialReply}`, homeCard.image);
+    this.response.cardRenderer(`Planning a date? I thought not.`, ` ${denialReply}`, homeCard.image);
     this.emit(':responseReady');
   },
 
@@ -271,7 +271,7 @@ const handlers = {
   // Handling requests for help.
   'AMAZON.HelpIntent': function() {
     let denialReply = denials[(Math.floor(Math.random() * denials.length))];
-    this.response.cardRenderer(`No.`, `\n\n ${denialReply}`, homeCard.image);
+    this.response.cardRenderer(`No.`, ` ${denialReply}`, homeCard.image);
     this.response.speak(addSpeehconSSML(denialReply));
     this.emit(':responseReady');
   },
@@ -280,7 +280,7 @@ const handlers = {
 
   'AMAZON.AddAction<object@Event>' : function() {
     let denialReply = denials[(Math.floor(Math.random() * denials.length))];
-    this.response.cardRenderer(`No.`, `\n\n ${denialReply}`, homeCard.image);
+    this.response.cardRenderer(`No.`, ` ${denialReply}`, homeCard.image);
     this.response.speak(addSpeehconSSML(denialReply));
     this.emit(':responseReady');
   },
@@ -289,7 +289,7 @@ const handlers = {
 
   'AMAZON.ChooseAction<object@Book>' : function() {
     let denialReply = denials[(Math.floor(Math.random() * denials.length))];
-    this.response.cardRenderer(`No.`, `\n\n ${denialReply}`, homeCard.image);
+    this.response.cardRenderer(`No.`, ` ${denialReply}`, homeCard.image);
     this.response.speak(addSpeehconSSML(denialReply));
     this.emit(':responseReady');
   },
@@ -298,7 +298,7 @@ const handlers = {
 
   'AMAZON.ChooseAction<object@CreativeWork>' : function() {
     let denialReply = denials[(Math.floor(Math.random() * denials.length))];
-    this.response.cardRenderer(`No.`, `\n\n ${denialReply}`, homeCard.image);
+    this.response.cardRenderer(`No.`, ` ${denialReply}`, homeCard.image);
     this.response.speak(addSpeehconSSML(denialReply));
     this.emit(':responseReady');
   },
@@ -307,7 +307,7 @@ const handlers = {
 
   'AMAZON.ChooseAction<object@Event>' : function() {
     let denialReply = denials[(Math.floor(Math.random() * denials.length))];
-    this.response.cardRenderer(`No.`, `\n\n ${denialReply}`, homeCard.image);
+    this.response.cardRenderer(`No.`, ` ${denialReply}`, homeCard.image);
     this.response.speak(addSpeehconSSML(denialReply));
     this.emit(':responseReady');
   },
@@ -316,7 +316,7 @@ const handlers = {
 
   'AMAZON.ChooseAction<object@ScreeningEvent[location]>' : function() {
     let denialReply = denials[(Math.floor(Math.random() * denials.length))];
-    this.response.cardRenderer(`No.`, `\n\n ${denialReply}`, homeCard.image);
+    this.response.cardRenderer(`No.`, ` ${denialReply}`, homeCard.image);
     this.response.speak(addSpeehconSSML(denialReply));
     this.emit(':responseReady');
   },
@@ -325,7 +325,7 @@ const handlers = {
 
   'AMAZON.ChooseAction<object@ScreeningEvent[workPresented]>' : function() {
     let denialReply = denials[(Math.floor(Math.random() * denials.length))];
-    this.response.cardRenderer(`No.`, `\n\n ${denialReply}`, homeCard.image);
+    this.response.cardRenderer(`No.`, ` ${denialReply}`, homeCard.image);
     this.response.speak(addSpeehconSSML(denialReply));
     this.emit(':responseReady');
   },
@@ -335,7 +335,7 @@ const handlers = {
   // Another exit path.
   'AMAZON.CloseAction<object@Thing>': function() {
     let farewellReply = farewells[(Math.floor(Math.random() * farewells.length))];
-    this.response.cardRenderer(`We're done here.`, `\n\n ${farewellReply}`, homeCard.image);
+    this.response.cardRenderer(`We're done here.`, ` ${farewellReply}`, homeCard.image);
     this.response.speak(addSpeehconSSML(farewellReply));
     this.emit(':responseReady');
   },
@@ -344,7 +344,7 @@ const handlers = {
 
   'AMAZON.CreateAction<object@ReadingList>' : function() {
     let denialReply = denials[(Math.floor(Math.random() * denials.length))];
-    this.response.cardRenderer(`No.`, `\n\n ${denialReply}`, homeCard.image);
+    this.response.cardRenderer(`No.`, ` ${denialReply}`, homeCard.image);
     this.response.speak(addSpeehconSSML(denialReply));
     this.emit(':responseReady');
   },
@@ -354,7 +354,7 @@ const handlers = {
   // Another exit path.
   'AMAZON.DeactivateAction<object@Thing>': function() {
     let farewellReply = farewells[(Math.floor(Math.random() * farewells.length))];
-    this.response.cardRenderer(`We're done here.`, `\n\n ${farewellReply}`, homeCard.image);
+    this.response.cardRenderer(`We're done here.`, ` ${farewellReply}`, homeCard.image);
     this.response.speak(addSpeehconSSML(farewellReply));
     this.emit(':responseReady');
   },
@@ -363,7 +363,7 @@ const handlers = {
 
   'AMAZON.DeleteAction<object@Book,sourceCollection@ReadingList>' : function() {
     let denialReply = denials[(Math.floor(Math.random() * denials.length))];
-    this.response.cardRenderer(`No.`, `\n\n ${denialReply}`, homeCard.image);
+    this.response.cardRenderer(`No.`, ` ${denialReply}`, homeCard.image);
     this.response.speak(addSpeehconSSML(denialReply));
     this.emit(':responseReady');
   },
@@ -372,7 +372,7 @@ const handlers = {
 
   'AMAZON.DeleteAction<object@BookSeries,sourceCollection@ReadingList>' : function() {
     let denialReply = denials[(Math.floor(Math.random() * denials.length))];
-    this.response.cardRenderer(`No.`, `\n\n ${denialReply}`, homeCard.image);
+    this.response.cardRenderer(`No.`, ` ${denialReply}`, homeCard.image);
     this.response.speak(addSpeehconSSML(denialReply));
     this.emit(':responseReady');
   },
@@ -381,7 +381,7 @@ const handlers = {
 
   'AMAZON.DeleteAction<object@Event>' : function() {
     let denialReply = denials[(Math.floor(Math.random() * denials.length))];
-    this.response.cardRenderer(`No.`, `\n\n ${denialReply}`, homeCard.image);
+    this.response.cardRenderer(`No.`, ` ${denialReply}`, homeCard.image);
     this.response.speak(addSpeehconSSML(denialReply));
     this.emit(':responseReady');
   },
@@ -390,7 +390,7 @@ const handlers = {
 
   'AMAZON.DeleteAction<object@ReadingList>' : function() {
     let denialReply = denials[(Math.floor(Math.random() * denials.length))];
-    this.response.cardRenderer(`No.`, `\n\n ${denialReply}`, homeCard.image);
+    this.response.cardRenderer(`No.`, ` ${denialReply}`, homeCard.image);
     this.response.speak(addSpeehconSSML(denialReply));
     this.emit(':responseReady');
   },
@@ -400,7 +400,7 @@ const handlers = {
   // Another exit path.
   'AMAZON.DeleteAction<object@Thing>': function() {
     let farewellReply = farewells[(Math.floor(Math.random() * farewells.length))];
-    this.response.cardRenderer(`We're done here.`, `\n\n ${farewellReply}`, homeCard.image);
+    this.response.cardRenderer(`We're done here.`, ` ${farewellReply}`, homeCard.image);
     this.response.speak(addSpeehconSSML(farewellReply));
     this.emit(':responseReady');
   },
@@ -410,7 +410,7 @@ const handlers = {
   // Another exit path.
   'AMAZON.IgnoreAction<object@Thing>': function() {
     let farewellReply = farewells[(Math.floor(Math.random() * farewells.length))];
-    this.response.cardRenderer(`We're done here.`, `\n\n ${farewellReply}`, homeCard.image);
+    this.response.cardRenderer(`We're done here.`, ` ${farewellReply}`, homeCard.image);
     this.response.speak(addSpeehconSSML(farewellReply));
     this.emit(':responseReady');
   },
@@ -419,7 +419,7 @@ const handlers = {
 
   'AMAZON.RateAction<object@Book>' : function() {
     let denialReply = denials[(Math.floor(Math.random() * denials.length))];
-    this.response.cardRenderer(`No.`, `\n\n ${denialReply}`, homeCard.image);
+    this.response.cardRenderer(`No.`, ` ${denialReply}`, homeCard.image);
     this.response.speak(addSpeehconSSML(denialReply));
     this.emit(':responseReady');
   },
@@ -428,7 +428,7 @@ const handlers = {
 
   'AMAZON.ReadAction<object@Calendar>' : function() {
     let denialReply = denials[(Math.floor(Math.random() * denials.length))];
-    this.response.cardRenderer(`No.`, `\n\n ${denialReply}`, homeCard.image);
+    this.response.cardRenderer(`No.`, ` ${denialReply}`, homeCard.image);
     this.response.speak(addSpeehconSSML(denialReply));
     this.emit(':responseReady');
   },
@@ -438,7 +438,7 @@ const handlers = {
   // Stop
   'AMAZON.StopIntent': function() {
     let farewellReply = farewells[(Math.floor(Math.random() * farewells.length))];
-    this.response.cardRenderer(`We're done here.`, `\n\n ${farewellReply}`, homeCard.image);
+    this.response.cardRenderer(`We're done here.`, ` ${farewellReply}`, homeCard.image);
     this.response.speak(addSpeehconSSML(farewellReply));
     this.emit(':responseReady');
   },
@@ -448,7 +448,7 @@ const handlers = {
   // Cancel
   'AMAZON.CancelIntent': function() {
     let farewellReply = farewells[(Math.floor(Math.random() * farewells.length))];
-    this.response.cardRenderer(`Me, cancel?`, `\n\n ${farewellReply}`, homeCard.image);
+    this.response.cardRenderer(`Me, cancel?`, ` ${farewellReply}`, homeCard.image);
     this.response.speak(addSpeehconSSML(farewellReply));
     this.emit(':responseReady');
   },
@@ -458,14 +458,16 @@ const handlers = {
   // Making sure the state is saved when the session is ended.
   'SessionEndedRequest': function() {
     let farewellReply = farewells[(Math.floor(Math.random() * farewells.length))];
-    this.response.cardRenderer(`buy bye.`, `\n\n ${farewellReply}`, homeCard.image);
+    this.response.cardRenderer(`buy bye.`, ` ${farewellReply}`, homeCard.image);
     this.response.speak(addSpeehconSSML(farewellReply));
     this.emit(':saveState', true);
   },
 
+////////////////////////// Breakline (between each handler).
+
   'Unhandled': function() {
     let confusionReply = confusions[(Math.floor(Math.random() * confusions.length))];
-    this.response.cardRenderer(`What?`, `\n\n ${confusionReply}`, homeCard.image);
+    this.response.cardRenderer(`What?`, ` ${confusionReply}`, homeCard.image);
     this.response.speak(addSpeehconSSML(confusionReply));
     this.emit(':responseReady');
   }
@@ -546,7 +548,9 @@ const pastTimes = [
   `Forever ago`,
   `Like, last Tuesday`,
   `Sometime before I started drinking`,
-  `Before you got here`
+  `Before you got here`,
+  `About an hour ago`,
+  `So, so long ago`
 ];
 
 // An array of things to say if we are saying 'yes'.
