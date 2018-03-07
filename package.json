@@ -20,5 +20,13 @@
   "bugs": {
     "url": "https://github.com/LanceHunter/Alexa-stepmom/issues"
   },
-  "homepage": "https://github.com/LanceHunter/Alexa-stepmom#readme"
+  "homepage": "https://github.com/LanceHunter/Alexa-stepmom#readme",
+  "devDependencies": {
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.9.0"
+  },
+  "dependencies": {
+    "eslint-config-airbnb": "^16.1.0",
+    "npm": "^5.7.1"
+  }
 }
