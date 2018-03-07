@@ -525,7 +525,11 @@ const greetings = [
   `Hello, dummy.`,
   `Hello, ugly.`,
   `Hello, reject.`,
-  `Hello, stinky.`
+  `Hello, stinky.`,
+  `Oh hi. I assume you're going to ask me a dumb question now.`,
+  `Why are you bothering me? Shouldn't you be crying by yourself right now?`,
+  `Why are you bothering me? I thought you would be crying into another bowl of ice cream by now.`,
+  `Why hello, disappointment.`
 ];
 
 // Things to say for unhandled requests.
