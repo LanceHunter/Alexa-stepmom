@@ -177,6 +177,16 @@ const handlers = {
 
 ////////////////////////// Breakline (between each handler).
 
+  'greetingIntent' : function() {
+    let greetReply = greetings[(Math.floor(Math.random() * greetings.length))];
+    this.response.cardRenderer(`We're saying 'hello' now?`, ` ${greetReply}`, homeCard.image);
+    this.response.speak(addSpeehconSSML(greetReply));
+    this.emit(':responseReady');
+  },
+
+
+////////////////////////// Breakline (between each handler).
+
   'AMAZON.RepeatIntent' : function() {
     let repeatReply = repeats[(Math.floor(Math.random() * repeats.length))];
     this.response.cardRenderer(`No.`, ` ${repeatReply}`, homeCard.image);
@@ -511,12 +521,18 @@ const greetings = [
   `Just to start I'm going to say I don't like your tone.`,
   `And what can I do for you, my least favorite?`,
   `Hello, tubby.`,
-  `I'm here, ready to do what you can't.`
+  `I'm here, ready to do what you can't.`,
+  `Hello, dummy.`,
+  `Hello, ugly.`,
+  `Hello, reject.`,
+  `Hello, stinky.`
 ];
 
 // Things to say for unhandled requests.
 const confusions = [
   `You're not making any sense.`,
+  `I don't understand you. Are you drunk?`,
+  `You're confusing me. Stop that.`,
   `I have no idea what you're talking about.`,
   `I would ask you to say that again, but I'd prefer you didn't.`
 ];
